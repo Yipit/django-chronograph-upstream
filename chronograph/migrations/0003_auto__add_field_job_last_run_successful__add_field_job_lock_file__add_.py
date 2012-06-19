@@ -31,9 +31,6 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('chronograph_job_subscribers', ['job_id', 'user_id'])
 
-        # Deleting field 'Log.date_added'
-        db.delete_column('chronograph_log', 'date_added')
-
         # Adding field 'Log.success'
         db.add_column('chronograph_log', 'success',
                       self.gf('django.db.models.fields.BooleanField')(default=True),
@@ -58,9 +55,6 @@ class Migration(SchemaMigration):
         # Removing M2M table for field subscribers on 'Job'
         db.delete_table('chronograph_job_subscribers')
 
-
-        # User chose to not deal with backwards NULL issues for 'Log.date_added'
-        raise RuntimeError("Cannot reverse this migration. 'Log.date_added' and its values cannot be restored.")
         # Deleting field 'Log.success'
         db.delete_column('chronograph_log', 'success')
 
